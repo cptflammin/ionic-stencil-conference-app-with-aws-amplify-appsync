@@ -3,6 +3,8 @@ import '@ionic/core';
 import { Component, Element, Listen, Prop, State, h } from '@stencil/core';
 import { UserData } from '../../providers/user-data';
 import { Plugins } from '@capacitor/core';
+import {AuthenticationService} from "../../services/auth.service";
+import {DataService} from "../../services/data.service";
 
 const { SplashScreen } = Plugins;
 
@@ -11,6 +13,9 @@ const { SplashScreen } = Plugins;
   styleUrl: 'app-root.css'
 })
 export class AppRoot {
+  authService: AuthenticationService;
+  dataService: DataService;
+
   @State() loggedIn = false;
   hasSeenTutorial = false;
 
@@ -48,6 +53,8 @@ export class AppRoot {
   }
 
   async componentDidLoad() {
+    this.authService = new AuthenticationService();
+    this.dataService = new DataService();
     this.checkLoginStatus();
     try {
       await SplashScreen.hide();
